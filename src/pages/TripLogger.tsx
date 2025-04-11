@@ -125,6 +125,7 @@ export default function TripLogger() {
   
   const handleTransitSearch = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("Searching for transit routes...");
     
     if (!searchStart || !searchEnd) {
       toast({
@@ -138,10 +139,13 @@ export default function TripLogger() {
     setSearchLoading(true);
     
     try {
+      console.log("Fetching routes from", searchStart, "to", searchEnd);
       const routes = await fetchTransitRoutes(searchStart, searchEnd);
+      console.log("Received routes:", routes);
       setTransitRoutes(routes);
       setSelectedRouteIndex(null);
     } catch (error) {
+      console.error("Error in transit search:", error);
       toast({
         title: "Error",
         description: "Failed to find transit routes. Please try again.",

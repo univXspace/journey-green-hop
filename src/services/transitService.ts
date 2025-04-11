@@ -123,6 +123,7 @@ const generateMockTransitRoutes = (start: string, end: string): TransitRoute[] =
   metroRoute.totalCo2Saved = parseFloat((metroRoute.distance * 0.21).toFixed(2));
   mixedRoute.totalCo2Saved = parseFloat((mixedRoute.distance * 0.21).toFixed(2));
   
+  console.log("Generated routes:", [busRoute, metroRoute, mixedRoute]);
   return [busRoute, metroRoute, mixedRoute];
 };
 
