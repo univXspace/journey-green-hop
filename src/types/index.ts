@@ -29,6 +29,31 @@ export interface Trip {
   co2Saved: number;
 }
 
+// Transit API types
+export interface TransitRoute {
+  duration: number; // in minutes
+  distance: number; // in kilometers
+  startAddress: string;
+  endAddress: string;
+  steps: TransitStep[];
+  totalCo2Saved: number;
+}
+
+export interface TransitStep {
+  type: TransportType;
+  distance: number;
+  duration: number;
+  startLocation: string;
+  endLocation: string;
+  instructions: string;
+  transitDetails?: {
+    line: string;
+    departureTime: string;
+    arrivalTime: string;
+    numStops: number;
+  };
+}
+
 // Reward types
 export interface Reward {
   id: string | number;
