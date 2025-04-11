@@ -1,4 +1,3 @@
-
 // User types
 export interface User {
   id: string;
@@ -12,6 +11,7 @@ export interface User {
   badges: string[];
   streakDays: number;
   bestStreak: number;
+  donatedPoints?: number;
 }
 
 // Trip types
@@ -27,6 +27,22 @@ export interface Trip {
   date: string;
   points: number;
   co2Saved: number;
+}
+
+// Ticket types
+export interface Ticket {
+  id: string | number;
+  userId: string;
+  type: TransportType;
+  from: string;
+  to: string;
+  date: string;
+  departureTime: string;
+  price: number;
+  points: number;
+  co2Saved: number;
+  status: 'active' | 'used' | 'expired';
+  qrCode?: string;
 }
 
 // Transit API types
@@ -100,9 +116,28 @@ export interface DashboardStats {
   }[];
 }
 
+// Organization types for donations
+export interface Organization {
+  id: string | number;
+  name: string;
+  description: string;
+  logo: string;
+  category: 'environmental' | 'community' | 'education' | 'health';
+  pointsReceived: number;
+}
+
 // API responses
 export interface ApiResponse<T> {
   success: boolean;
   data?: T;
   error?: string;
+}
+
+// Tree growth levels
+export interface TreeLevel {
+  level: number;
+  co2Required: number;
+  icon: string;
+  name: string;
+  description: string;
 }

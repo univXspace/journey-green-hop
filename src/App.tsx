@@ -13,6 +13,8 @@ import Dashboard from "./pages/Dashboard";
 import TripLogger from "./pages/TripLogger";
 import Rewards from "./pages/Rewards";
 import Profile from "./pages/Profile";
+import TicketBooking from "./pages/TicketBooking";
+import Donate from "./pages/Donate";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +31,8 @@ const App = () => (
           <Route path="/log-trip" element={<TripLogger />} />
           <Route path="/rewards" element={<Rewards />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/tickets" element={<TicketBooking />} />
+          <Route path="/donate" element={<Donate />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
