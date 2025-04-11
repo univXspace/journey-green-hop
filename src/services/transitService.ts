@@ -20,10 +20,14 @@ export const fetchTransitRoutes = async (
     // );
     // const data = await response.json();
     
+    console.log("Fetching transit routes for:", origin, "to", destination);
+    
     // Simulated response for demonstration
     await new Promise(resolve => setTimeout(resolve, 1000));
     
-    return generateMockTransitRoutes(origin, destination);
+    const routes = generateMockTransitRoutes(origin, destination);
+    console.log("Generated routes:", routes);
+    return routes;
   } catch (error) {
     console.error("Error fetching transit routes:", error);
     throw new Error("Failed to fetch transit routes. Please try again.");
@@ -32,16 +36,19 @@ export const fetchTransitRoutes = async (
 
 // Mock data generator for demonstration
 const generateMockTransitRoutes = (start: string, end: string): TransitRoute[] => {
+  // Generate random distances that will be somewhat proportional to real distances
+  const baseDistance = Math.floor(Math.random() * 10) + 5; // 5-15 km
+  
   const busRoute: TransitRoute = {
     duration: Math.floor(Math.random() * 30) + 20, // 20-50 minutes
-    distance: Math.floor(Math.random() * 10) + 5, // 5-15 km
+    distance: baseDistance * 1.2, // slightly longer for bus
     startAddress: start,
     endAddress: end,
     totalCo2Saved: 0,
     steps: [
       {
         type: "bus",
-        distance: Math.floor(Math.random() * 5) + 3,
+        distance: baseDistance * 1.2,
         duration: Math.floor(Math.random() * 15) + 10,
         startLocation: `${start} Bus Stop`,
         endLocation: `${end} Bus Terminal`,
@@ -58,14 +65,14 @@ const generateMockTransitRoutes = (start: string, end: string): TransitRoute[] =
   
   const metroRoute: TransitRoute = {
     duration: Math.floor(Math.random() * 20) + 15, // 15-35 minutes
-    distance: Math.floor(Math.random() * 8) + 4, // 4-12 km
+    distance: baseDistance * 0.9, // slightly shorter for metro
     startAddress: start,
     endAddress: end,
     totalCo2Saved: 0,
     steps: [
       {
         type: "metro",
-        distance: Math.floor(Math.random() * 4) + 2,
+        distance: baseDistance * 0.9,
         duration: Math.floor(Math.random() * 10) + 5,
         startLocation: `${start} Metro Station`,
         endLocation: `${end} Metro Station`,
@@ -82,14 +89,14 @@ const generateMockTransitRoutes = (start: string, end: string): TransitRoute[] =
   
   const mixedRoute: TransitRoute = {
     duration: Math.floor(Math.random() * 40) + 25, // 25-65 minutes
-    distance: Math.floor(Math.random() * 12) + 6, // 6-18 km
+    distance: baseDistance * 1.1, // mixed route might have transfers
     startAddress: start,
     endAddress: end,
     totalCo2Saved: 0,
     steps: [
       {
         type: "bus",
-        distance: Math.floor(Math.random() * 3) + 1,
+        distance: (baseDistance * 1.1) * 0.4, // 40% of journey by bus
         duration: Math.floor(Math.random() * 10) + 5,
         startLocation: `${start} Bus Stop`,
         endLocation: "Transfer Station",
@@ -103,7 +110,7 @@ const generateMockTransitRoutes = (start: string, end: string): TransitRoute[] =
       },
       {
         type: "metro",
-        distance: Math.floor(Math.random() * 6) + 3,
+        distance: (baseDistance * 1.1) * 0.6, // 60% of journey by metro
         duration: Math.floor(Math.random() * 15) + 10,
         startLocation: "Transfer Station",
         endLocation: `${end} Metro Station`,
@@ -129,4 +136,10 @@ const generateMockTransitRoutes = (start: string, end: string): TransitRoute[] =
 
 export const getTransportTypeIcon = (type: TransportType) => {
   return type === "bus" ? "🚌" : "🚇";
+};
+
+// Calculate total CO2 saved across all user trips
+export const calculateTotalCO2Saved = (trips: any[]): number => {
+  if (!trips || trips.length === 0) return 0;
+  return trips.reduce((total, trip) => total + (trip.co2Saved || 0), 0);
 };
